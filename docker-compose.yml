@@ -1,14 +1,5 @@
 version: '3.8'
 
-networks:
-  web_app:
-    name: web_app
-    external: true
-
-volumes:
-  traefik-acme:
-    name: traefik-acme
-
 services:
   traefik:
     image: traefik:v2.10.4
@@ -36,6 +27,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik-acme:/acme
@@ -55,3 +47,12 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     networks:
       - web_app
+
+networks:
+  web_app:
+    name: web_app
+    external: true
+
+volumes:
+  traefik-acme:
+    name: traefik-acme
