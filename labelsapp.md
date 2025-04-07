@@ -1,15 +1,21 @@
 ```
-- traefik.enable=true
-- traefik.docker.network=web_app
-- traefik.http.routers.wp.middlewares=https-redirect
-- traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-- traefik.http.routers.wp.entrypoints=http
-- traefik.http.routers.wp.rule=Host(``)
-- traefik.http.routers.wp-secure.entrypoints=https
-- traefik.http.routers.wp-secure.rule=Host(``)
-- traefik.http.routers.wp-secure.tls=true
-- traefik.http.routers.wp-secure.tls.options=default
-- traefik.http.routers.wp-secure.tls.certresolver=mycert
-- traefik.http.routers.wp-secure.service=wordpress
-- traefik.http.services.wordpress.loadbalancer.server.port=80
+labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=app_net"
+      - "traefik.http.routers.website.entrypoints=http"
+      - "traefik.http.routers.website.rule=Host(`amirkolahi.ir`)"
+      - "traefik.http.routers.website.middlewares=https-redirect"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.website-secure.entrypoints=https"
+      - "traefik.http.routers.website-secure.rule=Host(`amirkolahi.ir`)"
+      - "traefik.http.routers.website-secure.tls=true"
+      - "traefik.http.routers.website-secure.tls.options=default"
+      - "traefik.http.routers.website-secure.tls.certresolver=mycert"
+      - "traefik.http.routers.website-secure.service=website"
+      - "traefik.http.routers.website-secure.middlewares=hsts"
+      - "traefik.http.middlewares.hsts.headers.stsSeconds=63072000"
+      - "traefik.http.middlewares.hsts.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.hsts.headers.stsPreload=true"
+      - "traefik.http.services.website.loadbalancer.server.port=80"
+
 ```
